@@ -32,6 +32,4 @@ public class UrlController {
     RedirectView redirect(@PathVariable String token) {
         return new RedirectView(service.returnOriginalUrlForRedirect(token));
     }
-
-
 }

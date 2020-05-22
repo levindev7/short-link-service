@@ -31,36 +31,4 @@ public class Url {
     }
     public Url(){
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Date getUrlCreationTime() {
-        return urlCreationTime;
-    }
-
-    public void setUrlCreationTime(Date urlCreationTime) {
-        this.urlCreationTime = urlCreationTime;
-    }
 }

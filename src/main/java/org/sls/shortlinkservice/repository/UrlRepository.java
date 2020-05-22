@@ -1,4 +1,4 @@
-package org.sls.shortlinkservice.db;
+package org.sls.shortlinkservice.repository;
 
 import org.sls.shortlinkservice.model.Url;
 import org.springframework.data.jpa.repository.JpaRepository;

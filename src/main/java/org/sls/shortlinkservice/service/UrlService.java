@@ -3,7 +3,7 @@ package org.sls.shortlinkservice.service;
 import org.hashids.Hashids;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sls.shortlinkservice.db.UrlRepository;
+import org.sls.shortlinkservice.repository.UrlRepository;
 import org.sls.shortlinkservice.exception.NotFoundException;
 import org.sls.shortlinkservice.exception.TokenTimeoutException;
 import org.sls.shortlinkservice.model.Url;

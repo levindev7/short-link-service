@@ -1,4 +1,4 @@
-package org.sls.shortlinkservice.db;
+package org.sls.shortlinkservice.repository;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
