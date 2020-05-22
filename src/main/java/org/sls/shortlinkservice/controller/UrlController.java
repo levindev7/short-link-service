@@ -7,14 +7,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.net.http.HttpClient;
 
 @RestController
 @RequestMapping("/create")
-public class OriginalUrlController {
+public class UrlController {
     private final UrlService service;
 
-    public OriginalUrlController(UrlService service) {
+    public UrlController(UrlService service) {
         this.service = service;
     }
 

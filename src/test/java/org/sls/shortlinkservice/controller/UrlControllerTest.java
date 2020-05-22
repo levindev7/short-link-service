@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class OriginalUrlControllerTest extends ConfigTestController {
+class UrlControllerTest extends ConfigTestController {
     @Test
     @Transactional
     void shouldWorkWithValidUrl() throws Exception {
