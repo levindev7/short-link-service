@@ -13,7 +13,7 @@ import java.util.Date;
 public class Url {
     @Id
     @Column(unique = true)
-    @GeneratedValue
+    @GeneratedValue()
     private int id;
 
     @Column

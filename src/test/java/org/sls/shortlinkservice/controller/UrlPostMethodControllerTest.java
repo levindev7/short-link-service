@@ -7,10 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class UrlControllerTest extends ConfigTestController {
+class UrlPostMethodControllerTest extends ConfigTestController {
     @Test
     @Transactional
     void shouldWorkWithValidUrl() throws Exception {
@@ -19,9 +20,10 @@ class UrlControllerTest extends ConfigTestController {
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(body)
         )
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.link", startsWith("/"))
+                .andExpect(jsonPath("$.link", startsWith("localhost:8080/"))
                 );
     }
 
@@ -32,9 +34,10 @@ class UrlControllerTest extends ConfigTestController {
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(body)
         )
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.link", startsWith("/"))
+                .andExpect(jsonPath("$.link", startsWith("localhost:8080/"))
                 );
     }
 
@@ -45,9 +48,10 @@ class UrlControllerTest extends ConfigTestController {
                 .contentType(APPLICATION_JSON_VALUE)
                 .content(body)
         )
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.link", startsWith("/"))
+                .andExpect(jsonPath("$.link", startsWith("localhost:8080/"))
                 );
     }
 
@@ -70,5 +74,4 @@ class UrlControllerTest extends ConfigTestController {
         )
                 .andExpect(status().isBadRequest());
     }
-
 }

@@ -1,66 +1,69 @@
 package org.sls.shortlinkservice.service;
 
-import org.hashids.Hashids;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.sls.shortlinkservice.repository.UrlRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.sls.shortlinkservice.exception.NotFoundException;
 import org.sls.shortlinkservice.exception.TokenTimeoutException;
 import org.sls.shortlinkservice.model.Url;
+import org.sls.shortlinkservice.repository.UrlRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class UrlService  {
-    private static final Logger logger = LoggerFactory.getLogger(
-            UrlService.class);
-
     private final UrlRepository repository;
 
     public UrlService(UrlRepository repository) {
         this.repository = repository;
     }
 
+    public HashidsUtil hashidsUtil;
+
+    public String notNullUrl;
+
     public String createShortUrl(String originalUrl) {
-        Url url = new Url(originalUrl);
+        Optional<Url> optionalUrl = Optional.ofNullable(repository.findByOriginalUrl(originalUrl));
+        optionalUrl.ifPresent(url -> notNullUrl = url.getOriginalUrl());
 
-            Hashids hashids = new Hashids(originalUrl, 5);
-            String hash = hashids.encode(url.getId());
-            url.setToken(hash);
-
-            url.setUrlCreationTime(new Date());
-
-            repository.save(url);
-
-            return url.getToken();
-
+        if(notNullUrl != null &&
+            checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken())) {
+            return repository.findByOriginalUrl(originalUrl).getToken();
+        }
+        else if(notNullUrl != null &&
+                checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken()) == false) {
+            repository.save(hashidsUtil.getHashidsUtilWithNewId(originalUrl, repository.findByOriginalUrl(originalUrl).getId()));
+            return hashidsUtil.getHashidsUtilWithNewId(originalUrl, repository.findByOriginalUrl(originalUrl).getId()).getToken();
+        }
+        else {
+                repository.save(HashidsUtil.getHashidsUtil(originalUrl));
+            return HashidsUtil.getHashidsUtil(originalUrl).getToken();
+        }
     }
 
-    public String returnOriginalUrl(String token)  {
+    public String returnOriginalUrl(String token) throws NotFoundException {
         if(token.equals(repository.findByToken(token).getToken())) {
             return repository.findByToken(token).getOriginalUrl();
         } else {
-            logger.error("404 Page Not Found");
+            log.error("404 Page Not Found");
             throw new NotFoundException();
         }
     }
 
-    public String returnOriginalUrlForRedirect(String token) {
-        if(token.equals(repository.findByToken(token).getToken())
-                && checkingRelevanceToken(token)) {
+    public String returnOriginalUrlForRedirect(String token) throws TokenTimeoutException, NotFoundException {
+        if(token.equals(repository.findByToken(token).getToken()) &&
+                checkingRelevanceToken(token)) {
             return repository.findByToken(token).getOriginalUrl();
         }
-        else if (token.equals(repository.findByToken(token).getToken())
-                && checkingRelevanceToken(token) == false) {
-            logger.error("419 The token's lifetime has ended");
+        else if (token.equals(repository.findByToken(token).getToken()) &&
+                checkingRelevanceToken(token) == false) {
+            log.error("419 The token's lifetime has ended");
             throw new TokenTimeoutException();
         }
         else {
-            logger.error("404 Page Not Found");
+            log.error("404 Page Not Found");
             throw new NotFoundException();
         }
-
     }
 
 
