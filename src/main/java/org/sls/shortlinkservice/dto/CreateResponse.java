@@ -10,7 +10,6 @@ public class CreateResponse {
 
     public CreateResponse(String link) {
         this.link = "localhost:8080/" + link;
-        log.info("");
+        log.info("create response");
     }
-
 }

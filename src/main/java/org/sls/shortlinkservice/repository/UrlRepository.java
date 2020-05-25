@@ -12,7 +12,6 @@ public interface UrlRepository extends JpaRepository<Url, String> {
     @Transactional
     Url findByOriginalUrl(String originalUrl);
 
-
     @Nullable
     @Transactional
     Url findByToken(String token);

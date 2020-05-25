@@ -32,8 +32,8 @@ public class UrlService  {
         }
         else if(notNullUrl != null &&
                 checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken()) == false) {
-            repository.save(hashidsUtil.getHashidsUtilWithNewId(originalUrl, repository.findByOriginalUrl(originalUrl).getId()));
-            return hashidsUtil.getHashidsUtilWithNewId(originalUrl, repository.findByOriginalUrl(originalUrl).getId()).getToken();
+            repository.save(HashidsUtil.getHashidsUtilWithNewId(originalUrl));
+            return HashidsUtil.getHashidsUtilWithNewId(originalUrl).getToken();
         }
         else {
                 repository.save(HashidsUtil.getHashidsUtil(originalUrl));
@@ -65,7 +65,6 @@ public class UrlService  {
             throw new NotFoundException();
         }
     }
-
 
     public boolean checkingRelevanceToken(String token) {
         Date currentTime = new Date();
