@@ -19,6 +19,7 @@ public class ReturnUrlController {
 
     @GetMapping(path = "/getOriginalUrl/{token}")
     public String returnOriginalUrl(@PathVariable String token) {
+        log.info("Processing a GET request to return the original URL based on a short URL.");
         return service.returnOriginalUrl(token);
     }
 }

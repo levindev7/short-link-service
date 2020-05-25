@@ -28,21 +28,25 @@ public class UrlService  {
 
         if(notNullUrl != null &&
             checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken())) {
+            log.info("Original link is in the DB and the token has not expired, return short URL from DB.");
             return repository.findByOriginalUrl(originalUrl).getToken();
         }
         else if(notNullUrl != null &&
                 checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken()) == false) {
             repository.save(HashidsUtil.getHashidsUtilWithNewId(originalUrl));
+            log.info("Original link is in the DB and the token has expired, save new short URL to DB and return.");
             return HashidsUtil.getHashidsUtilWithNewId(originalUrl).getToken();
         }
         else {
                 repository.save(HashidsUtil.getHashidsUtil(originalUrl));
+            log.info("Original link was not previously in the database, save new short link to DB and return.");
             return HashidsUtil.getHashidsUtil(originalUrl).getToken();
         }
     }
 
     public String returnOriginalUrl(String token) throws NotFoundException {
         if(token.equals(repository.findByToken(token).getToken())) {
+            log.info("Search the original URL by token and return");
             return repository.findByToken(token).getOriginalUrl();
         } else {
             log.error("404 Page Not Found");
@@ -53,11 +57,12 @@ public class UrlService  {
     public String returnOriginalUrlForRedirect(String token) throws TokenTimeoutException, NotFoundException {
         if(token.equals(repository.findByToken(token).getToken()) &&
                 checkingRelevanceToken(token)) {
+            log.info("Search the original URL by token and checking the token expiration time and redirect to the original URL");
             return repository.findByToken(token).getOriginalUrl();
         }
         else if (token.equals(repository.findByToken(token).getToken()) &&
                 checkingRelevanceToken(token) == false) {
-            log.error("419 The token's lifetime has ended");
+            log.error("419 The token's expiration time has ended");
             throw new TokenTimeoutException();
         }
         else {
@@ -68,6 +73,7 @@ public class UrlService  {
 
     public boolean checkingRelevanceToken(String token) {
         Date currentTime = new Date();
+        log.info("Creating a time reference point for comparison with the time of token creation and comparing them");
         return repository.findByToken(token).getUrlCreationTime().
                 getTime() + 600000 > currentTime.getTime();
     }

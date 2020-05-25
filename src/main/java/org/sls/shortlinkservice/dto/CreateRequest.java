@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Slf4j
 public class CreateRequest {
     @NotNull(message = "field originalUrl can't be null")
     @NotBlank(message = "field originalUrl can't be empty")
