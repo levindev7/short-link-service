@@ -14,10 +14,10 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/create")
 @Slf4j
-public class UrlController {
+public class CreateUrlController {
     private final UrlService service;
 
-    public UrlController(UrlService service) {
+    public CreateUrlController(UrlService service) {
         this.service = service;
     }
 
