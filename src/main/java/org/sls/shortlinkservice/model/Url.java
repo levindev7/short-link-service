@@ -12,7 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class Url {
     @Id
-    @Column(unique = true)
     @GeneratedValue()
     private int id;
 
@@ -29,6 +28,7 @@ public class Url {
     public Url(String originalUrl) {
         this.originalUrl = originalUrl;
     }
-    public Url(){
+
+    public Url() {
     }
 }
