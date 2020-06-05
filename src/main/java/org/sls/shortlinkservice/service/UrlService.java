@@ -48,18 +48,19 @@ public class UrlService {
             log.error("404 Page Not Found");
             throw new NotFoundException();
         } else if (checkingRelevanceToken(token)) {
-            log.info("Search the original URL by token and checking the token expiration time and redirect to the original URL");
+            log.info("Search the original URL by token and checking the token expiration time and redirect to the original URL", token);
             return repository.findByToken(token).getOriginalUrl();
         } else {
-            log.error("419 The token's expiration time has ended");
+            log.error("419 The token's expiration time has ended", token);
             throw new TokenTimeoutException();
         }
     }
 
     private boolean checkingRelevanceToken(String token) {
         Date currentTime = new Date();
+        int lifeTimeOfToken = 600000; // in milliseconds, 6 minutes right now
         log.info("Creating a time reference point for comparison with the time of token creation and comparing them");
         return repository.findByToken(token).getUrlCreationTime().
-                getTime() + 600000 > currentTime.getTime();
+                getTime() + lifeTimeOfToken > currentTime.getTime();
     }
 }
