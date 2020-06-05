@@ -20,7 +20,7 @@ public class RedirectController {
 
     @GetMapping(path = "/{token}")
     RedirectView redirect(@PathVariable String token) {
-        log.info("Processing a GET request for redirection from a short URL to the original URL and.");
+        log.info("Processing a GET request for redirection from a token: " + token + " to the original URL and.");
         return new RedirectView(service.returnOriginalUrlForRedirect(token));
     }
 }

@@ -20,38 +20,38 @@ public class UrlService {
     public String createShortUrl(String originalUrl) {
         if (repository.findByOriginalUrl(originalUrl) == null) {
             repository.save(HashidsUtil.getHashidsUtil(originalUrl));
-            log.info("Original link was not previously in the database, save new short link to DB and return.");
+            log.info(originalUrl + " was not previously in the database, save new short link to DB and return.");
             return HashidsUtil.getHashidsUtil(originalUrl).getToken();
         }
         if (checkingRelevanceToken(repository.findByOriginalUrl(originalUrl).getToken())) {
-            log.info("Original link is in the DB and the token has not expired, return short URL from DB.");
+            log.info(originalUrl + " is in the DB and the token has not expired, return short URL from DB.");
             return repository.findByOriginalUrl(originalUrl).getToken();
         } else {
             repository.save(HashidsUtil.getHashidsUtilWithNewId(originalUrl));
-            log.info("Original link is in the DB and the token has expired, save new short URL to DB and return.");
+            log.info(originalUrl + " is in the DB and the token has expired, save new short URL to DB and return.");
             return HashidsUtil.getHashidsUtilWithNewId(originalUrl).getToken();
         }
     }
 
     public String returnOriginalUrl(String token) {
         if (repository.findByToken(token) == null) {
-            log.error("404 Page Not Found");
+            log.error("404 Page Not Found, token " + token + " is missing from the DB");
             throw new NotFoundException();
         } else {
-            log.info("Search the original URL by token and return");
+            log.info("Search the original URL by " + token + " and return");
             return repository.findByToken(token).getOriginalUrl();
         }
     }
 
     public String returnOriginalUrlForRedirect(String token) {
         if (repository.findByToken(token) == null) {
-            log.error("404 Page Not Found");
+            log.error("404 Page Not Found, token " + token + " is missing from the DB");
             throw new NotFoundException();
         } else if (checkingRelevanceToken(token)) {
-            log.info("Search the original URL by token and checking the token expiration time and redirect to the original URL", token);
+            log.info("Search the original URL by token: " + token + " and checking the token expiration time and redirect to the original URL");
             return repository.findByToken(token).getOriginalUrl();
         } else {
-            log.error("419 The token's expiration time has ended", token);
+            log.error("419 The token's: " + token + " expiration time has ended");
             throw new TokenTimeoutException();
         }
     }
@@ -59,7 +59,7 @@ public class UrlService {
     private boolean checkingRelevanceToken(String token) {
         Date currentTime = new Date();
         int lifeTimeOfToken = 600000; // in milliseconds, 6 minutes right now
-        log.info("Creating a time reference point for comparison with the time of token creation and comparing them");
+        log.info("Creating a time reference point for comparison with the time of token (" + token + ") creation and comparing them");
         return repository.findByToken(token).getUrlCreationTime().
                 getTime() + lifeTimeOfToken > currentTime.getTime();
     }

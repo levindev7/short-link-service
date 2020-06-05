@@ -16,6 +16,6 @@ public class CreateResponse {
 
     public CreateResponse(String token) {
         this.token = host + token;
-        log.info("create response");
+        log.info("Create response with a token: " + token);
     }
 }

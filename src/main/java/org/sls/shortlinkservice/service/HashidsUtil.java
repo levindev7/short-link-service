@@ -1,13 +1,17 @@
 package org.sls.shortlinkservice.service;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.hashids.Hashids;
 import org.sls.shortlinkservice.model.Url;
+
 import java.util.Date;
 
+@Data
 @Slf4j
 public class HashidsUtil {
-    public static int count = 1;
+    private static int count = 1;
+
     public static Url getHashidsUtil(String originalUrl) {
         Url url = new Url(originalUrl);
         Hashids hashids = new Hashids(originalUrl, 5);
@@ -15,9 +19,11 @@ public class HashidsUtil {
         url.setToken(hash);
 
         url.setUrlCreationTime(new Date());
-        log.info("Creating a token and its start time");
+        log.info("Creating a token: " + url + " from the original URL:" + originalUrl + " and its start time " + url.getUrlCreationTime());
         return url;
+        //creating a token from the original link and the time of its creation
     }
+
     public static Url getHashidsUtilWithNewId(String originalUrl) {
         Url url = new Url(originalUrl);
         Hashids hashids = new Hashids(originalUrl, 5);
@@ -25,7 +31,7 @@ public class HashidsUtil {
         url.setToken(hash);
 
         url.setUrlCreationTime(new Date());
-        log.info("Creating a token to add the original URL with the expired token to the database");
+        log.info("Creating a token: " + url + " to add the original URL (" + originalUrl + ") with the expired token to the database");
         return url;
     }
 }
