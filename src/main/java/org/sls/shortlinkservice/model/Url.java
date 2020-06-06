@@ -3,6 +3,7 @@ package org.sls.shortlinkservice.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Url {
     @Id
     @GeneratedValue()
@@ -27,8 +29,5 @@ public class Url {
 
     public Url(String originalUrl) {
         this.originalUrl = originalUrl;
-    }
-
-    public Url() {
     }
 }
