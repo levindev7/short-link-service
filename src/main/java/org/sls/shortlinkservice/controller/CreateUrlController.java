@@ -24,7 +24,7 @@ public class CreateUrlController {
     @PostMapping
     public CreateResponse createShortUrl(@RequestBody @Valid CreateRequest request) {
         log.info("processing a POST request: " + request + " to create a short URL.");
-        return new CreateResponse(service.createShortUrl(request.getOriginalUrl())
+        return new CreateResponse(service.createShortUrl(request.getOriginalUrl().trim())
         );
     }
 }
