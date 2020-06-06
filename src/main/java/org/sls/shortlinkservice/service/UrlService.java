@@ -20,21 +20,26 @@ public class UrlService {
 
     @Transactional
     public String createShortUrl(String originalUrl) {
+        String host = "localhost:8080/";
+        /*Need to get the domain using the method -
+          InetAddress address = InetAddress.getLocalHost();
+          String domain = address.getHostAddress();*/
+
         Url url = repository.findByOriginalUrl(originalUrl);
         if (url == null) {
             url = HashidsUtil.getHashidsUtil(originalUrl);
             repository.save(url);
             log.info(originalUrl + " was not previously in the database, save new short link to DB and return.");
-            return url.getToken();
+            return host + url.getToken();
         }
         if (checkingRelevanceToken(url)) {
             log.info(originalUrl + " is in the DB and the token: " + url.getToken() + " has not expired, return short URL from DB.");
-            return url.getToken();
+            return host + url.getToken();
         } else {
             url = HashidsUtil.getHashidsUtilWithNewId(originalUrl);
             repository.save(url);
             log.info(originalUrl + " is in the DB and the token has expired, save new short URL to DB and return.");
-            return url.getToken();
+            return host + url.getToken();
         }
     }
 
