@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.hashids.Hashids;
 import org.sls.shortlinkservice.model.Url;
-
 import java.util.Date;
 
 @Data
@@ -21,7 +20,6 @@ public class HashidsUtil {
         url.setUrlCreationTime(new Date());
         log.info("Creating a token: " + url + " from the original URL:" + originalUrl + " and its start time " + url.getUrlCreationTime());
         return url;
-        //creating a token from the original link and the time of its creation
     }
 
     public static Url getHashidsUtilWithNewId(String originalUrl) {
