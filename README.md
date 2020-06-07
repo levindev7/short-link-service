@@ -1,5 +1,8 @@
 short-link-service
 =============
+
+https://app.codeship.com/projects/60614ad0-8ac9-0138-f982-121e45cdfe67/status?branch=master
+
 Краткое описание
 ----------------
 REST-сервис по предоставлению ссылок пользователям.
