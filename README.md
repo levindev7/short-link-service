@@ -1,7 +1,8 @@
 short-link-service
 =============
 
-https://app.codeship.com/projects/60614ad0-8ac9-0138-f982-121e45cdfe67/status?branch=master
+* Author name : Vadim Larin
+* Codeship : [![Codeship Status for levindev7/short-link-service](https://app.codeship.com/projects/60614ad0-8ac9-0138-f982-121e45cdfe67/status?branch=master)](https://app.codeship.com/projects/399220)
 
 Краткое описание
 ----------------
